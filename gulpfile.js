@@ -1,3 +1,4 @@
+// Require Dependencies
 var gulp = require('gulp');
 var gls  = require('gulp-live-server');
 var less = require('gulp-less');
@@ -10,21 +11,26 @@ gulp.task('less', function() {
 });
 
 
+// Run a local server
+gulp.task('server', function() {
+  var server = gls('./src/app.js', {NODE_ENV: 'development', PORT: 3000});
+  server.start(); // Start the server
+
+  gulp.watch(['gulpfile.js', './src/app.js', './src/controllers/**/*.js'], function() {
+    server.start.bind(server)()
+  });
+});
+
+
 // Watch for file changes
 gulp.task('watch', function() {
   gulp.watch(['./src/public/less/**/*.less'], ['less']);
 });
 
-
-gulp.task('server', function() {
-	var server = gls('./src/index.js');
-	server.start();
-
-// will we get a conflict if i type this? 
-
-	gulp.watch(['gulpfile.js', './src/index.js', './src/controllers/**/*.js'], function() {
-		server.start.bind(server)()
+gulp.watch(['gulpfile.js', './src/index.js', './src/controllers/**/*.js'], function() {
+	server.start.bind(server)()
 	});
-});
 
-gulp.task('default', ['server']);
+
+// Default Task
+gulp.task('default', ['watch', 'server']);

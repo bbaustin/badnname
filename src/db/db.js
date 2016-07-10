@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-var connectionString = 'mongodb://localhost/MoviesApp';
+var connectionString = 'mongodb://localhost/BadnnameDB';
 
 mongoose.connect(connectionString);
 
