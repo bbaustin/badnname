@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var connectionString = 'mongodb://localhost/BadnnameDB';
+
 // We will have two collections:
   // 1) Users
   // 2) Searches
