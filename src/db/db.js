@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 
-var connectionString = 'mongodb://localhost/MoviesApp';
+var connectionString = 'mongodb://localhost/BadnnameDB';
+// We will have two collections:
+  // 1) Users
+  // 2) Searches
+    // + Searches will be linked to Users by UserID
 
 mongoose.connect(connectionString);
 
