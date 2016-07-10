@@ -1,6 +1,7 @@
-var express = require('express');
-var app     = express();
-var exphbs  = require('express-handlebars');
+var express    = require('express');
+var app        = express();
+var exphbs     = require('express-handlebars');
+var bodyParser = require('body-parser');
 
 
 app.engine('hbs', exphbs({
