@@ -1,2 +1,0 @@
-# badnname
-PROJECT 2
