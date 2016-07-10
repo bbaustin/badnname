@@ -22,10 +22,10 @@ require('./db/db');
 
 // Middleware
 app.use(express.static(__dirname + '/public'));
+app.use(require('./controllers/home'));
 
 
 
-
-var server = app.listen(3000, function() {
-	console.log('server running at http://localhost:3000')
+var server = app.listen(3001, function() {
+	console.log('server running at http://localhost:3001')
 });
