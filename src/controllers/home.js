@@ -74,9 +74,7 @@ HomeController.route('/?')
           }
           else if (result) {
             console.log(user)
-            res.render('search', {
-              username: req.body.username
-            })  // Result is true or false.
+            res.redirect('/search')
 
           } else {
             console.log('Wrong passwror')
