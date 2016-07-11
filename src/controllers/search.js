@@ -24,18 +24,29 @@ var express           = require('express'),
 
 SearchController.route('/?') 
   .get(function(req, res) {
-    res.send('hello');
+    res.render('search');
   })
   .post(function(req, res) {
+    Search.create({
+      query: req.body.query
+    })
     bandcamp.search({
-      query: 'Elefant Records',
+      query: req.body.query,
       page: 1
-  }, function(error, results) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(results);
-  }
+      }, function(error, results) {
+    if (error) {
+      console.log(error);
+    } 
+    else {
+      //console.log(results);
+      //res.json(results);
+      console.log(results);
+      res.render('searchResult', {
+        query: req.body.query,
+        link: results[0].link, // [0] is band info
+        image: results[1].image // [1] is album info
+      })
+    }
   });
 });
 
