@@ -23,11 +23,11 @@ require('./db/db');
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(require('./controllers/home'));
-app.use('/signup', require('./controllers/signup'));
 app.use('/search', require('./controllers/search'));
 
 
 
 var server = app.listen(8008, function() {
 	console.log('server running at ' + server.address().port)
+
 });

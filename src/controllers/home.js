@@ -5,7 +5,39 @@ var express         = require('express'),
     User            = require(__dirname + '/../models/user'),
     bcrypt          = require('bcrypt');
 
-// HomeController.route('/:id/?')
+
+
+
+////////////SIGN UP//////////////
+HomeController.route('/signup/?')
+  // GET sign up page
+  .get(function(req, res, next) {
+    res.render('signup', {})
+  })
+  .post(function(req, res, next) {
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+      // Fill In Model/Schema
+      User.create({
+      username: req.body.username,
+      password: hash,
+      email: req.body.email
+      },
+      function(err, user) {
+        if (err) {
+          console.log(err);
+          res.render('signup', {error: err});
+        } else {
+            console.log(user)
+            res.redirect('/search/' + req.body.username)
+        }
+      })
+    });
+  });
+
+
+
+// /////////////LOG IN//////////////
+// HomeController.route('/user/:id/?')
   
 //   .get(function(req, res) {
 //     User.findById(req.params.id, function(err, user) {
@@ -20,10 +52,41 @@ var express         = require('express'),
 //   });
 
 
-HomeController.route('/?')
-///////////////////////////////////  
+
+
+//////////////HOME///////////////
+
+HomeController.route('/?') 
   .get(function(req, res, next) {
     res.render('home', {})
-  });
+  })
+   .post(function(req, res, next) {
+    // find user by username
+    User.findOne({username: req.body.username}, function(error, user) {
+      if (error || !user) {
+        res.send('Could not find user');
+      } else {
+        // Compare the password send through the form. 
+        bcrypt.compare(req.body.password, user.password, function(err, result) {
+          if (err) {
+            console.log(err)
+            res.send('ERROR: ' + err);   // error in bcrypt ibrary itself
+          }
+          else if (result) {
+            console.log(user)
+            res.render('search', {
+              username: req.body.username
+            })  // Result is true or false.
+
+          } else {
+            console.log('Wrong passwror')
+            res.send('Wrong password!')
+          }
+        })
+      }
+    })
+  })
  
  module.exports = HomeController;
+
+
