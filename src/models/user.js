@@ -1,4 +1,4 @@
-// User Model Object
+s// User Model Object
 var mongoose = require('mongoose');
 
 
