@@ -27,8 +27,8 @@ HomeController.route('/signup/?')
           console.log(err);
           res.render('signup', {error: err});
         } else {
-            console.log(user)
-            res.redirect('/search/' + req.body.username)
+            console.log(user);
+            res.redirect('/search/');
         }
       })
     });
