@@ -28,7 +28,7 @@ HomeController.route('/signup/?')
           res.render('signup', {error: err});
         } else {
             console.log(user);
-            res.redirect('/search/');
+            res.redirect('/search');
         }
       })
     });
