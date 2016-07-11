@@ -23,9 +23,10 @@ require('./db/db');
 // Middleware
 app.use(express.static(__dirname + '/public'));
 app.use(require('./controllers/home'));
+app.use('/signup', require('./controllers/signup'));
 
 
 
-var server = app.listen(3001, function() {
-	console.log('server running at http://localhost:3001')
+var server = app.listen(8000, function() {
+	console.log('server running at http://localhost:4000')
 });
