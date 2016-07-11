@@ -7,7 +7,7 @@ var less = require('gulp-less');
 gulp.task('less', function() {
   gulp.src('./src/public/less/style.less')
     .pipe(less())
-    .pipe(gulp.dest('./src/public/style.css'));
+    .pipe(gulp.dest('./src/public/css/'));
 });
 
 
@@ -33,4 +33,4 @@ gulp.task('watch', function() {
 
 
 // Default Task
-gulp.task('default', ['watch', 'less', 'server']);
+gulp.task('default', ['watch', 'server']);
