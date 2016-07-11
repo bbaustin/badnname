@@ -2,7 +2,7 @@
 
 var express         = require('express'),
     HomeController  = express.Router(),
-    User            = require(__dirname + '/../models/user');
+    User            = require(__dirname + '/../models/user'),
     bcrypt          = require('bcrypt');
 
 // HomeController.route('/:id/?')
