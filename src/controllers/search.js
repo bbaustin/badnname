@@ -4,23 +4,6 @@ var express           = require('express'),
     Search            = require(__dirname + '/../models/search');
 
 
-// SearchController.route('/:id/?') {
-//   .post(function(req, res) {
-
-//   // bandcamp.search({
-//   //   query: 'Elefant Records',
-//   //   page: 1
-//   // } , function(error, results) {
-//   //   if (error) {
-//   //     console.log(error);
-//   //   }    
-//   //   else {
-//   //   console.log(results);
-//   //   }
-
-//   // })
-//   // });
-// };
 
 SearchController.route('/?') 
   .get(function(req, res) {
@@ -59,8 +42,7 @@ SearchController.route('/?')
         }
       }
     /////////  TYPE: ARTIST  /////////    
-        // else if(results[0].type === 'artist') {
-        //   if (req.body.query.toLowerCase() === results[0].name.toLowerCase()) {
+
         else if (results[0].type === 'artist') {
 
           if (req.body.query.toLowerCase() === results[0].name.toLowerCase()) {
