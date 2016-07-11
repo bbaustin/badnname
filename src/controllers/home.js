@@ -28,7 +28,7 @@ HomeController.route('/signup/?')
           res.render('signup', {error: err});
         } else {
             console.log(user)
-            res.redirect('/user/' + req.body.username)
+            res.redirect('/search/' + req.body.username)
         }
       })
     });
@@ -74,7 +74,10 @@ HomeController.route('/?')
           }
           else if (result) {
             console.log(user)
-            res.redirect('/user/' + req.body.username)  // Result is true or false.
+            res.render('search', {
+              username: req.body.username
+            })  // Result is true or false.
+
           } else {
             console.log('Wrong passwror')
             res.send('Wrong password!')

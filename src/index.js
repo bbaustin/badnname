@@ -27,6 +27,6 @@ app.use(require('./controllers/home'));
 
 
 
-var server = app.listen(7000, function() {
-	console.log('server running at http://localhost:8000')
+var server = app.listen(8008, function() {
+	console.log('server running at http://localhost:8008')
 });
