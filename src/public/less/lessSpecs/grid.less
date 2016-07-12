@@ -1,11 +1,15 @@
 body {
+  padding: 0px;
+  margin: 0px;
   background-color: @white;
+  background-image: url("../img/amp-ibanez-2.jpeg");
 }
 
 .containerH {
   display: flex;
   flex-grow: 1;
-  padding: 15px;
+  justify-content: center;
+
 }
 
 .containerV {
@@ -13,6 +17,44 @@ body {
   flex-direction: column;
 }
 
-div {
-  margin: 0;
+input[type="text"], input[type="password"] {
+
+  border: none; 
+  border-radius: 50px;
+  height: 50px;
+  width: 500px;
+  background-color : @black; 
+  color: @white;
+  font-family: 'Cutive Mono', monospace;
+  font-size: 22px;
+  text-align: center;
+
+}
+
+input[type="text"]:focus, input[type="password"]:focus{
+  outline: none;
+  background-color: rgba(60, 60, 60, .65);
+}
+
+button {
+  width: 100px;
+  height: 33px;
+  border-radius: 33px;
+  background-color: #319c8a;
+  border:none;
+  font-family: 'Cutive Mono', monospace;
+  font-size:16px;
+}
+
+button:hover {
+  background-color: @detail;
+}
+
+button:focus {
+  outline:none;
+}
+
+button:active {
+  outline: none;
+  background-color: #319c8a;
 }
