@@ -1,7 +1,23 @@
 var express           = require('express'),
     SearchController  = express.Router(),
     bandcamp          = require('bandcamp-scraper'),
-    Search            = require(__dirname + '/../models/search');
+    Search            = require(__dirname + '/../models/search'),
+    User              = require(__dirname + '/../models/user');
+
+
+
+SearchController.route('/getAll')
+
+  .get(function(req, res){
+    Search.find({username: 'jim'}, function(err, searches) {
+      console.log(searches)
+      res.json(searches)
+    })
+  })
+// list out everything matching hard-coded username 'jim' in the search collection.
+
+
+
 
 
 
@@ -11,7 +27,8 @@ SearchController.route('/?')
   })
   .post(function(req, res) {
     Search.create({
-      query: req.body.query
+      query: req.body.query,
+      username: 'jim'
     })
 ///////////  BANDCAMP SCRAPER  ////////////
     bandcamp.search({
