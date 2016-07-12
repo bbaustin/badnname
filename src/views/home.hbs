@@ -5,6 +5,10 @@
 
 
 <div class="containerH">
+  <p>{{message}}</p>
+</div>
+
+<div class="containerH">
   <form method="post" action="/">
     <input type="text" name="username" placeholder="Username" />
     <br />
@@ -21,8 +25,3 @@
   <br>
   <p span style="text-align:right">New?<a href="/signup">>></a></p>
 </div>
-{{#if message}}
-hi
-{{else}}
-no
-{{/if}}

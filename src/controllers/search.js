@@ -29,7 +29,9 @@ SearchController.route('/userHistory')
 
 SearchController.route('/?') 
   .get(function(req, res) {
-    res.render('search');
+    res.render('search', {
+      message: req.body.username
+    });
   })
   .post(function(req, res) {
     console.log('xxxxxxxxxxxxxxxxxxxxxx');
