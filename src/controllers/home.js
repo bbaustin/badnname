@@ -19,8 +19,19 @@ HomeController.route('/signup/?')
   })
   // Registers new user
   .post(function(req, res, next) {
-    if (req.body.password === req.body.password_confirmation) {
-      // Set bcrypt security for password
+    if ((req.body.password || req.body.password_confirmation) === '') {
+      res.render('signup', {
+      message: req.session.isLoggedIn ? true : 'Please complete all fields!' 
+      })
+
+    }
+    else if ((req.body.password !== '') && req.body.password !== req.body.password_confirmation) {
+      res.render('signup', {
+      message: req.session.isLoggedIn ? true : 'Your passwords do not match!' 
+      })
+    }
+    else if (req.body.password === req.body.password_confirmation) {
+      // Make password secure with bcrypt
       bcrypt.hash(req.body.password, 10, function(err, hash) {
       // Create new user document based on user schema
       User.create({
@@ -58,9 +69,10 @@ HomeController.route('/?')
    .post(function(req, res, next) {
     // find user by username
     User.findOne({username: req.body.username}, function(error, user) {
+      
       if (error || !user) {
         res.render('home', {
-        message: req.session.isLoggedIn ? true : false 
+        message: req.session.isLoggedIn ? true : "Username not found!"
       })
       } else {
         // Compare the password sent through the form. 
@@ -78,7 +90,7 @@ HomeController.route('/?')
           } else {
             console.log('Wrong password')
             res.render('home', {
-            message: req.session.isLoggedIn ? true : false
+            message: req.session.isLoggedIn ? true : "Your password is incorrect!"
             })
           }
         })
