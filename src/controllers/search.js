@@ -8,7 +8,7 @@ var express           = require('express'),
 
 SearchController.route('/getAll')
 
-  .get(function(req, res){
+  .get(function(req, res) {
     Search.find({username: 'jim'}, function(err, searches) {
       console.log(searches)
       res.json(searches)
