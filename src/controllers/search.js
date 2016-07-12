@@ -12,8 +12,8 @@ SearchController.route('/getAll')
     Search.find({username: 'jim'}, function(err, searches) {
       console.log(searches)
       res.json(searches)
-    })
-  })
+    });
+  });
 // list out everything matching hard-coded username 'jim' in the search collection.
 
 
@@ -45,6 +45,7 @@ SearchController.route('/?')
             console.log(results);
             res.render('searchResult', {
               query: req.body.query,
+              comment: ", but it looks like that band name might be taken.",
               link: results[0].link, // [0] is band info
               image: results[0].image // [1] is album info? maybe 
             })
@@ -54,7 +55,10 @@ SearchController.route('/?')
           console.log(results[0].name);
           console.log(req.body.query);
           res.render('searchResult', {
-            query: req.body.query + " but maybe that band name is still available"
+            query: req.body.query,
+            comment: ". That bandname is not registered on Bandcamp!",
+            link: '/search',
+            image: ''
           })
         }
       }
@@ -67,7 +71,8 @@ SearchController.route('/?')
             res.render('searchResult', {
               query: req.body.query,
               link: results[0].link, // [0] is band info
-              image: results[0].image // [1] is album info? maybe 
+              image: results[0].image, // [1] is album info? maybe 
+              comment: ", but it looks like that band name might be taken."
             })
           }
           else {
@@ -75,7 +80,10 @@ SearchController.route('/?')
             console.log(results[0].name);
             console.log(req.body.query);
             res.render('searchResult', {
-            query: req.body.query + " but maybe that band name is still available"
+            query: req.body.query,
+            link: '/search',
+            image: '',
+            comment: ". That name has not been registered on Bandcamp!"
           })
         }
       }

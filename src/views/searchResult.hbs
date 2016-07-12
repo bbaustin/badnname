@@ -1,15 +1,19 @@
-
-<p>You searched for: </p>
-<h1><a href={{link}}>{{query}}</a></h1>
-<img src={{image}} /> 
-<p><a href="search/:id">view your history</a></p>
 <div class="containerH">
-  <p> 
-    You searched for <a class="searched" href={{link}}>{{query}}</a>, but it looks like that's already a band name. 
-  </p>  
+  <a href={{link}}>
+    <img src={{image}} /> 
+  </a>
 </div>
 
 <div class="containerH">
-  <a href={{link}}><img src={{image}} /></a> 
+  <p>You searched for <a class="searched" href={{link}}>{{query}}</a>{{{comment}}}</p>
+</div>
+
+
+<div class="containerH">  
+  <p><a href="search">search again</a></p>
+</div>
+
+<div class="containerH">
+  <p><a href="search/:id">view your history</a></p><br/>
 </div>
 
