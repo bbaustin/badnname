@@ -9,14 +9,17 @@ var express           = require('express'),
 SearchController.route('/getAll')
 
   .get(function(req, res) {
-    Search.find({username: 'jim'}, function(err, searches) {
-      console.log(searches)
-      res.json(searches)
+    console.log('oooooooooooooooooooooo');
+    console.log(req.session);
+    Search.find({userId: req.session.userId}, function(err, searches) {
+      console.log(searches.length);
+      res.json(searches);
     });
   });
 // list out everything matching hard-coded username 'jim' in the search collection.
 
 
+// _id: req.session.userId
 
 
 
@@ -26,9 +29,12 @@ SearchController.route('/?')
     res.render('search');
   })
   .post(function(req, res) {
+    console.log('xxxxxxxxxxxxxxxxxxxxxx');
+    console.log(req.body.query);
+    console.log(req.session.userId);
     Search.create({
       query: req.body.query,
-      username: 'jim'
+      userId: req.session.userId
     })
 ///////////  BANDCAMP SCRAPER  ////////////
     bandcamp.search({
@@ -42,7 +48,7 @@ SearchController.route('/?')
     /////////  TYPE: ALBUM  /////////    
         else if (results[0].type === 'album') {
           if (req.body.query.toLowerCase() === results[0].artist.toLowerCase()) {
-            console.log(results);
+            //console.log(results);
             res.render('searchResult', {
               query: req.body.query,
               comment: ", but it looks like that band name might be taken.",
@@ -51,9 +57,9 @@ SearchController.route('/?')
             })
           }
         else {
-          console.log(results);
-          console.log(results[0].name);
-          console.log(req.body.query);
+          //console.log(results);
+          //console.log(results[0].name);
+          //console.log(req.body.query);
           res.render('searchResult', {
             query: req.body.query,
             comment: ". That bandname is not registered on Bandcamp!",
@@ -67,7 +73,7 @@ SearchController.route('/?')
         else if (results[0].type === 'artist') {
 
           if (req.body.query.toLowerCase() === results[0].name.toLowerCase()) {
-            console.log(results);
+            //console.log(results);
             res.render('searchResult', {
               query: req.body.query,
               link: results[0].link, // [0] is band info
@@ -76,9 +82,9 @@ SearchController.route('/?')
             })
           }
           else {
-            console.log(results);
-            console.log(results[0].name);
-            console.log(req.body.query);
+            //console.log(results);
+            //console.log(results[0].name);
+            //console.log(req.body.query);
             res.render('searchResult', {
             query: req.body.query,
             link: '/search',
