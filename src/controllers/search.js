@@ -7,7 +7,6 @@ var express           = require('express'),
 
 
 SearchController.route('/getAll')
-
   .get(function(req, res) {
     console.log('oooooooooooooooooooooo');
     console.log(req.session);
@@ -22,6 +21,10 @@ SearchController.route('/getAll')
 // _id: req.session.userId
 
 
+SearchController.route('/userHistory')
+  .get(function(req, res) {
+    res.render('userHistory');
+  });
 
 
 SearchController.route('/?') 

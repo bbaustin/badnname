@@ -4,6 +4,7 @@ body {
 h1 {
   color: rgba(255, 255, 255, 0.65);
   font-size: 5em;
+  margin: 0;
 }
 h2 {
   color: #38b6a0;
@@ -39,6 +40,9 @@ body {
 .containerV {
   display: flex;
   flex-direction: column;
+}
+header {
+  margin: 0;
 }
 input[type="text"],
 input[type="password"] {
