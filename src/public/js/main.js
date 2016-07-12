@@ -9,7 +9,7 @@ var ajax = {
   success: function(searches) {
     console.log(searches);
     for (var i = 0; i < searches.length; i++) {
-      $('#movieList').append("<li>" + searches[i].title + "</li>");
+      $('#previousSearches').append("<li>" + searches[i].query + "</li>");
     }
   },
   error: function(err) {
