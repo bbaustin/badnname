@@ -15,8 +15,12 @@ HomeController.route('/signup/?')
     res.render('signup', {})
   })
   .post(function(req, res, next) {
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-      // Fill In Model/Schema
+    //   if (req.body.password === null) {
+    //     res.send('Please enter a password')
+    //   }
+    // else {
+      bcrypt.hash(req.body.password, 10, function(err, hash) {
+      // Create new document based on User Schema
       User.create({
       username: req.body.username,
       password: hash,
@@ -28,34 +32,18 @@ HomeController.route('/signup/?')
           res.render('signup', {error: err});
         } else {
             console.log(user)
-            res.redirect('/search/' + req.body.username)
+            res.redirect('/search')
         }
       })
-    });
+    })
+  // }
   });
 
-
-
-// /////////////LOG IN//////////////
-// HomeController.route('/user/:id/?')
-  
-//   .get(function(req, res) {
-//     User.findById(req.params.id, function(err, user) {
-//       if(err) {
-//         console.log(err);
-//         res.send('There was an error with your UserID GET request');
-//       }
-//       else {
-//         res.json(user);
-//       }
-//     });
-//   });
 
 
 
 
 //////////////HOME///////////////
-
 HomeController.route('/?') 
   .get(function(req, res, next) {
     res.render('home', {})
@@ -66,18 +54,18 @@ HomeController.route('/?')
       if (error || !user) {
         res.send('Could not find user');
       } else {
-        // Compare the password send through the form. 
+        // Compare the password sent through the form. 
         bcrypt.compare(req.body.password, user.password, function(err, result) {
           if (err) {
             console.log(err)
-            res.send('ERROR: ' + err);   // error in bcrypt ibrary itself
+            res.send('ERROR: ' + err);   // error in bcrypt library itself
           }
           else if (result) {
             console.log(user)
             res.redirect('/search')
 
           } else {
-            console.log('Wrong passwror')
+            console.log('Wrong password')
             res.send('Wrong password!')
           }
         })
