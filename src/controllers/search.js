@@ -11,7 +11,7 @@ SearchController.route('/getAll')
     // console.log('oooooooooooooooooooooo');
     // console.log(req.session);
     Search.find({userId: req.session.userId}, function(err, searches) {
-      console.log(searches.length);
+      // console.log(searches.length);
       res.json(searches);
     });
   });
@@ -29,9 +29,15 @@ SearchController.route('/userHistory')
 
 SearchController.route('/?') 
   .get(function(req, res) {
+    if (req.session.isLoggedIn === null || req.session === null) {
+      res.redirect('/logout')
+      // console.log(req.session, req.session.isLoggedIn)
+    }
+    else {
     res.render('search', {
       message: req.body.username
-    });
+    })
+  }
   })
   .post(function(req, res) {
     // console.log('xxxxxxxxxxxxxxxxxxxxxx');
