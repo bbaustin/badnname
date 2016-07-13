@@ -6,6 +6,15 @@ var express           = require('express'),
 
 
 
+
+
+SearchController.route('/userHistory')
+  .get(function(req, res) {
+    res.render('userHistory');
+  });
+
+
+
 SearchController.route('/getAll')
   .get(function(req, res) {
     // console.log('oooooooooooooooooooooo');
@@ -15,28 +24,27 @@ SearchController.route('/getAll')
       res.json(searches);
     });
   });
-// list out everything matching hard-coded username 'jim' in the search collection.
 
-
-// _id: req.session.userId
-
-
-SearchController.route('/userHistory')
-  .get(function(req, res) {
-    res.render('userHistory');
-  });
 
 
 SearchController.route('/?') 
   .get(function(req, res) {
+    console.log(req.session.userId, 'this is the session variable')
     if (req.session.isLoggedIn === null || req.session === null) {
       res.render('home')
       // console.log(req.session, req.session.isLoggedIn)
     }
     else {
-    res.render('search', {
-      username: req.session.username
+
+    User.findById(req.session.userId, function(err, user){
+      console.log(user, 'this is userfind function')
+       res.render('search', {
+        username: user.username
       })
+    })
+
+
+   
     }
   })
   .post(function(req, res) {
