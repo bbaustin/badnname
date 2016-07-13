@@ -30,17 +30,21 @@ SearchController.route('/userHistory')
 SearchController.route('/?') 
   .get(function(req, res) {
     res.render('search', {
-      message: req.body.username
+      username: req.session.username
     });
   })
   .post(function(req, res) {
     // console.log('xxxxxxxxxxxxxxxxxxxxxx');
     // console.log(req.body.query);
     // console.log(req.session.userId);
-    Search.create({
-      query: req.body.query,
-      userId: req.session.userId
-    })
+
+// COME BACK TO THIS IF U BROKE EVERYTHING
+    // Search.create({
+    //   query: req.body.query,
+    //   userId: req.session.userId,
+    //   found: undefined
+    // })
+
 ///////////  BANDCAMP SCRAPER  ////////////
     bandcamp.search({
       query: req.body.query,
@@ -48,23 +52,29 @@ SearchController.route('/?')
       }, function(error, results) {
         if (error) {
           console.log(error);
+          res.send('there was an error with POST /search');
         } 
-
     /////////  TYPE: ALBUM  /////////    
         else if (results[0].type === 'album') {
           if (req.body.query.toLowerCase() === results[0].artist.toLowerCase()) {
-            //console.log(results);
+            Search.create({
+              query: req.body.query,
+              userId: req.session.userId,
+              found: true
+            })
             res.render('searchResult', {
               query: req.body.query,
               comment: ", but it looks like that band name might be taken.",
-              link: results[0].link, // [0] is band info
-              image: results[0].image // [1] is album info? maybe 
+              link: results[0].link, 
+              image: '<img src=' + results[0].image + '/>', 
             })
           }
         else {
-          //console.log(results);
-          //console.log(results[0].name);
-          //console.log(req.body.query);
+          Search.create({
+            query: req.body.query,
+            userId: req.session.userId,
+            found: false
+          })
           res.render('searchResult', {
             query: req.body.query,
             comment: ". That bandname is not registered on Bandcamp!",
@@ -78,53 +88,33 @@ SearchController.route('/?')
         else if (results[0].type === 'artist') {
 
           if (req.body.query.toLowerCase() === results[0].name.toLowerCase()) {
-            //console.log(results);
+            Search.create({
+              query: req.body.query,
+              userId: req.session.userId,
+              found: true
+            })
             res.render('searchResult', {
               query: req.body.query,
-              link: results[0].link, // [0] is band info
-              image: results[0].image, // [1] is album info? maybe 
+              link: results[0].link, 
+              image: '<img src=' + results[0].image + '/>',  
               comment: ", but it looks like that band name might be taken."
             })
           }
           else {
-            //console.log(results);
-            //console.log(results[0].name);
-            //console.log(req.body.query);
+            Search.create({
+              query: req.body.query,
+              userId: req.session.userId,
+              found: false
+            })
             res.render('searchResult', {
-            query: req.body.query,
-            link: '/search',
-            image: '',
-            comment: ". That name has not been registered on Bandcamp!"
+              query: req.body.query,
+              link: '/search',
+              image: '',
+              comment: ". That name has not been registered on Bandcamp!"
           })
         }
       }
-
-
     });
   });
-
-
-
-    //  (req.body.query.toLowerCase() === results[0].name.toLowerCase())//|| req.body.query.toLowerCase() === results[0].artist.toLowerCase()) {
-    //   //console.log(results);
-    //   //res.json(results);
-    //   {
-    //   console.log(results);
-    //   res.render('searchResult', {
-    //     query: req.body.query,
-    //     link: results[0].link, // [0] is band info
-    //     image: results[0].image // [1] is album info? maybe 
-    //   })
-    // }
-    // else {
-    //   console.log(results);
-    //   console.log(results[0].name);
-    //   console.log(req.body.query);
-    //   res.render('searchResult', {
-    //     query: req.body.query + " but maybe that band name is still available"
-    //   })
-    // }
-
-
 
 module.exports = SearchController;
