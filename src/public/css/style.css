@@ -9,6 +9,8 @@ h1 {
 h2 {
   color: #38b6a0;
   font-size: 3em;
+  margin-top: 40px;
+  margin-bottom: 0;
 }
 h3 {
   color: rgba(255, 255, 255, 0.65);
@@ -26,6 +28,7 @@ li {
 p {
   color: rgba(255, 255, 255, 0.65);
   font-size: 1.5em;
+  margin: 0;
 }
 .searched {
   font-size: 2em;
@@ -41,9 +44,12 @@ body {
 }
 .containerH {
   display: flex;
-  margin: 2%, 10%;
+  margin-top: 20px;
   flex-grow: 1;
+  margin-left: 20%;
+  margin-right: 20%;
   justify-content: center;
+  text-align: center;
 }
 .containerV {
   display: flex;
@@ -51,6 +57,9 @@ body {
 }
 header {
   margin: 0;
+}
+input {
+  margin-top: 20px;
 }
 input[type="text"],
 input[type="password"] {
@@ -91,5 +100,8 @@ button:active {
 .logout {
   position: absolute;
   right: 30px;
-  top: 35px;
+  top: 55px;
+}
+input:first-child {
+  margin-top: 0px;
 }
