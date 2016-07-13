@@ -13,6 +13,7 @@ h2 {
 h3 {
   color: rgba(255, 255, 255, 0.65);
   font-size: 2em;
+  margin: 0;
 }
 a {
   color: #38b6a0;
@@ -29,6 +30,9 @@ p {
 .searched {
   font-size: 2em;
 }
+.logout a {
+  color: black;
+}
 body {
   padding: 0px;
   margin: 0px;
@@ -37,7 +41,7 @@ body {
 }
 .containerH {
   display: flex;
-  margin: 0, 3%;
+  margin: 2%, 10%;
   flex-grow: 1;
   justify-content: center;
 }
@@ -83,4 +87,9 @@ button:focus {
 button:active {
   outline: none;
   background-color: #319c8a;
+}
+.logout {
+  position: absolute;
+  right: 30px;
+  top: 35px;
 }
