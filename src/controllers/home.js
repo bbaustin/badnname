@@ -19,7 +19,7 @@ HomeController.route('/logout/?')
 // req.session = null;
   req.session.destroy()
   console.log(req.session, '------------------------------------------------------------- this is req.session')
-  res.render('home')
+  res.render('logout')
 })
 
 
@@ -90,18 +90,23 @@ HomeController.route('/?')
   .get(function(req, res, next) {
     res.render('home', {
     pageTitle: 'Badnname'
-
     })
   })
    .post(function(req, res, next) {
     // find user by username
     User.findOne({username: req.body.username}, function(error, user) {
-      
-      if (error || !user) {
+      if ((req.body.password === '') || (req.body.username === '')) {
+        res.render('home', {
+        message: (req.body.password === '') || (req.body.username === '') ? 'Please complete all fields!' : false
+        })
+        console.log('complete fields')
+      }
+      else if (error || !user) {
         res.render('home', {
         message: req.session.isLoggedIn ? true : "Username not found!"
       })
-      } else {
+      }
+      else {
         // Compare the password sent through the form. 
         bcrypt.compare(req.body.password, user.password, function(err, result) {
           if (err) {

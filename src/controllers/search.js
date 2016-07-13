@@ -7,30 +7,48 @@ var express           = require('express'),
 
 
 
-SearchController.route('/getAll')
-  .get(function(req, res) {
-    Search.find({userId: req.session.userId}, function(err, searches) {
-      res.json(searches);
-    });
-  });
-// _id: req.session.userId
+
 
 SearchController.route('/userHistory')
   .get(function(req, res) {
     res.render('userHistory');
   });
 
+
+
+SearchController.route('/getAll')
+  .get(function(req, res) {
+    Search.find({userId: req.session.userId}, function(err, searches) {
+      res.json(searches);
+    });
+  });
+
+
+SearchController.route('/userHistory')
+  .get(function(req, res) {
+    res.render('userHistory');
+  });
+
+
 SearchController.route('/?') 
   .get(function(req, res) {
+    console.log(req.session.userId, 'this is the session variable')
     if (req.session.isLoggedIn === null || req.session === null) {
       res.render('home')
       
       // console.log(req.session, req.session.isLoggedIn)
     }
     else {
-    res.render('search', {
-      username: req.session.username
+
+    User.findById(req.session.userId, function(err, user){
+      console.log(user, 'this is userfind function')
+       res.render('search', {
+        username: user.username
       })
+    })
+
+
+   
     }
   })
   .post(function(req, res) {
