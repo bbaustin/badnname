@@ -10,25 +10,18 @@ var express         = require('express'),
        
 
 
-HomeController.route('/getAllUsers')
-  .get(function(req, res) {
-    User.find({}, function(err, users) {
-      console.log(users);
-      res.json(users);
-    });
-  });
 
-          // ////////////LOG OUT//////////////
-          // // GET log out page
-          // HomeController.route('/logout/?')
-          // .get(function(req, res, next) {
-          //   req.session.isLoggedIn = null;
-          //   req.session = null;
-          //   console.log(req.session);
-          //   res.render('logout', {
-          //     pageTitle: ' Log Out'
-          //   })
-          // })
+          ////////////LOG OUT//////////////
+          // GET log out page
+          HomeController.route('/logout/?')
+          .get(function(req, res, next) {
+            // req.session.isLoggedIn = false;
+            req.session = null;
+            console.log(req.session, '------------------------------------------------------------- this is req.session')
+            res.render('logout', {
+              pageTitle: ' Log Out'
+            })
+          })
 
 
 ////////////SIGN UP//////////////
@@ -42,43 +35,44 @@ HomeController.route('/signup/?')
   // Registers new user
   .post(function(req, res, next) {
     User.findOne({ username: req.body.username}, function(err, user) {
-        if (err || user) {
+      if (err || user) {
+      res.render('signup', {
+      message: req.session.isLoggedIn ? true : "That username already exists!"
+      })
+      console.log('username exists')
+      } 
+      else if (!user) {
+        if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
+          res.render('signup', {
+          message: req.session.isLoggedIn ? true : 'Please complete all fields!'
+          })
+          console.log('complete fields')
+      }
+      else if (req.body.password !== req.body.password_confirmation) {
         res.render('signup', {
-        message: req.session.isLoggedIn ? true : "That username already exists!"
+        message: req.session.isLoggedIn ? true : 'Your passwords do not match!' 
         })
-        console.log('username exists')
-        }
-        else if (!user) {
-          if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
-      res.render('signup', {
-      message: req.session.isLoggedIn ? true : 'Please complete all fields!'
-      })
-      console.log('complete fields')
-    }
-    else if (req.body.password !== req.body.password_confirmation) {
-      res.render('signup', {
-      message: req.session.isLoggedIn ? true : 'Your passwords do not match!' 
-      })
-      console.log('passwords dont match')
-    }
-    else if (req.body.password === req.body.password_confirmation) {
-      // Make password secure with bcrypt
-      bcrypt.hash(req.body.password, 10, function(err, hash) {
-      // Create new user document based on user schema
-      User.create({
-      username: req.body.username,
-      password: hash,
-      email: req.body.email
-      },
-      function(err, user) {
-        if (err) {
-          console.log(err);
-          res.render('signup', {error: err});
-        } else {
-            console.log(user);
-            req.session.isLoggedIn = true;
-            req.session.userId     = user._id;
-            res.redirect('/search');
+        console.log('passwords dont match')
+      }
+      else if (req.body.password === req.body.password_confirmation) {
+        // Make password secure with bcrypt
+        bcrypt.hash(req.body.password, 10, function(err, hash) {
+          // Create new user document based on user schema
+          User.create({
+          username: req.body.username,
+          password: hash,
+          email: req.body.email
+          },
+          function(err, user) {
+            if (err) {
+              console.log(err);
+              res.render('signup', {error: err});
+            }
+            else {
+              console.log(user);
+              req.session.isLoggedIn = true;
+              req.session.userId     = user._id;
+              res.redirect('/search');
         }
       })
     })
