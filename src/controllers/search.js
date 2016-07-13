@@ -38,7 +38,7 @@ SearchController.route('/?')
       username: req.session.username
       })
     }
-    })
+  })
   .post(function(req, res) {
     // console.log('xxxxxxxxxxxxxxxxxxxxxx');
     // console.log(req.body.query);
