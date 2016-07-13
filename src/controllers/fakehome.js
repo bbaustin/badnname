@@ -44,22 +44,19 @@ HomeController.route('/signup/?')
     User.findOne({ username: req.body.username}, function(err, user) {
         if (err || user) {
         res.render('signup', {
-        message: req.session.isLoggedIn ? true : "That username already exists!"
-        })
-        console.log('username exists')
-        }
-        else if (!user) {
-          if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
+        message: req.session.isLoggedIn ? true : "Username exists!"
+      })
+      }
+      })
+    if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
       res.render('signup', {
       message: req.session.isLoggedIn ? true : 'Please complete all fields!'
       })
-      console.log('complete fields')
     }
     else if (req.body.password !== req.body.password_confirmation) {
       res.render('signup', {
       message: req.session.isLoggedIn ? true : 'Your passwords do not match!' 
       })
-      console.log('passwords dont match')
     }
     else if (req.body.password === req.body.password_confirmation) {
       // Make password secure with bcrypt
@@ -83,15 +80,6 @@ HomeController.route('/signup/?')
       })
     })
     }
-
-
-
-
-
-
-        }
-      })
-    
   });
 
 
@@ -139,5 +127,3 @@ HomeController.route('/?')
   })
  
  module.exports = HomeController;
-
-
