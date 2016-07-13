@@ -1,6 +1,7 @@
 var express           = require('express'),
     SearchController  = express.Router(),
     bandcamp          = require('bandcamp-scraper'),
+    discogs           = require('disconnect').Client,
     Search            = require(__dirname + '/../models/search'),
     User              = require(__dirname + '/../models/user');
 
@@ -17,14 +18,16 @@ SearchController.route('/userHistory')
 
 SearchController.route('/getAll')
   .get(function(req, res) {
-    // console.log('oooooooooooooooooooooo');
-    // console.log(req.session);
     Search.find({userId: req.session.userId}, function(err, searches) {
-      // console.log(searches.length);
       res.json(searches);
     });
   });
 
+
+SearchController.route('/userHistory')
+  .get(function(req, res) {
+    res.render('userHistory');
+  });
 
 
 SearchController.route('/?') 
@@ -32,6 +35,7 @@ SearchController.route('/?')
     console.log(req.session.userId, 'this is the session variable')
     if (req.session.isLoggedIn === null || req.session === null) {
       res.render('home')
+      
       // console.log(req.session, req.session.isLoggedIn)
     }
     else {
@@ -48,17 +52,30 @@ SearchController.route('/?')
     }
   })
   .post(function(req, res) {
-    // console.log('xxxxxxxxxxxxxxxxxxxxxx');
-    // console.log(req.body.query);
-    // console.log(req.session.userId);
-
-// COME BACK TO THIS IF U BROKE EVERYTHING
-    // Search.create({
-    //   query: req.body.query,
-    //   userId: req.session.userId,
-    //   found: undefined
-    // })
-
+///////////  DISCOGS  ////////////
+    var db = new discogs({
+             consumerKey: 'ASYxbejFTvCfHSryhgKr', 
+             consumerSecret: 'NPbNIIhHUrdGYgQMPWIfEyFCIGkwvNeY'}).database();
+        db.search([req.body.query], ['artist'], function(err, data){
+          console.log(data);
+          if (err) {
+            console.log('your discogs thing has error ' + err);
+          }
+          else if (data.pagination.items===0) { 
+            console.log(req.body.query + " is not found on discogs");
+          }
+          else {
+            for (var i = 0; i < data.results.length; i++) {
+              if (data.results[i].type === 'artist' && data.results[i].title.toLowerCase() === req.body.query.toLowerCase()){
+                console.log('It looks like ' + req.body.query + ' has something on Discogs');
+                i = data.results.length;
+              }
+              else {
+                console.log('I dont think ' + req.body.query + ' is an existing band name');
+              }
+            }
+          }
+        })
 ///////////  BANDCAMP SCRAPER  ////////////
     bandcamp.search({
       query: req.body.query,

@@ -57,6 +57,8 @@ body {
 .containerV {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
 }
 header {
   margin: 0;
