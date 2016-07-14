@@ -1,10 +1,10 @@
 $(document).ready(function(){
   $.ajax(ajax);
-})
+});
 
 var ajax = {
   url: '/search/getAll',
-  type: 'get', //this is the request. the server makes the get method
+  type: 'get',
   dataType: 'json',
   success: function(searches) {
     console.log(searches);
@@ -18,9 +18,8 @@ var ajax = {
     }
   },
   error: function(err) {
-    console.log(err)
+    console.log(err);
   }
-
 }
 
 

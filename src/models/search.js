@@ -1,10 +1,9 @@
 // Search Model
 // ------------
-
 var mongoose = require('mongoose');
 
 var SearchSchema = new mongoose.Schema({
-  query: String, // Probably an array, since we will be adding additional Strings!
+  query: String,
   userId: String,
   found: Boolean
 }, {

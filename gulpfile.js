@@ -1,7 +1,8 @@
 // Require Dependencies
-var gulp = require('gulp');
-var gls  = require('gulp-live-server');
-var less = require('gulp-less');
+var gulp = require('gulp'),
+    gls  = require('gulp-live-server'),
+    less = require('gulp-less');
+
 
 // Transpile LESS into CSS
 gulp.task('less', function() {
@@ -26,10 +27,6 @@ gulp.task('server', function() {
 gulp.task('watch', function() {
   gulp.watch(['./src/public/less/**/*.less'], ['less']);
 });
-
-// gulp.watch(['gulpfile.js', './src/index.js', './src/controllers/**/*.js'], function() {
-// 	server.start.bind(server)()
-// 	});
 
 
 // Default Task

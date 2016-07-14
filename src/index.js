@@ -1,9 +1,10 @@
-var express    = require('express')
-var app        = express()
-var exphbs     = require('express-handlebars')
-var bodyParser = require('body-parser')
-var session    = require('express-session')
-var timeout = require('connect-timeout');
+var express    = require('express'),
+    app        = express(),
+    exphbs     = require('express-handlebars'),
+    bodyParser = require('body-parser'),
+    session    = require('express-session'),
+    timeout    = require('req-timeout');
+    var timeout = require('connect-timeout');
 
 
 // Configure Setting
@@ -23,7 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   secret: 'akdh;akhfgafihgadkfhgakfdlghhlshf'
-}))
+}));
 
 
 // Connect to Database
@@ -37,15 +38,20 @@ app.use('/', require('./controllers/home'));
 app.use('/', function(req, res, next) {
   if (req.session.isLoggedIn === true) {
     return next();
-  } else {
-    res.redirect('/')
+  } 
+  else {
+    res.redirect('/');
   }
-})
+});
 app.use('/search', require('./controllers/search'));
 
-app.use(timeout(2000));
+
+
+
+
+
+
 
 var server = app.listen(8008, function() {
-	console.log('server running at ' + server.address().port)
-
+	console.log('server running at ' + server.address().port);
 });
