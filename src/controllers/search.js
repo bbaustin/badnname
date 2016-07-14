@@ -40,22 +40,24 @@ SearchController.route('/?')
     }
     else {
 
-    User.findById(req.session.userId, function(err, user){
-      console.log(user, 'this is userfind function')
-       res.render('search', {
-        username: user.username
+      User.findById(req.session.userId, function(err, user){
+        console.log(user, 'this is userfind function')
+        res.render('search', {
+          username: user.username
+        })
       })
-    })
-
-
-   
     }
   })
   .post(function(req, res) {
 ///////////  DISCOGS  ////////////
+  // to do tonight ---------> create more handlebars to add discogs info in. 
+    // this will include 'comment,' 'link,' 'etc.' maybe image?
+    // PROBLEM: your "found: true" thing kind of won't work anymore :'( figure it out
+          // FUCK. Yeah, you're not creating a search until it goes through the bandcamp thing. goddammit lol. 
+          // sort of hacky, but can you have two Booleans? like bandcampFound and discogsFound? not terrible :/ 
     var db = new discogs({
-             consumerKey: 'ASYxbejFTvCfHSryhgKr', 
-             consumerSecret: 'NPbNIIhHUrdGYgQMPWIfEyFCIGkwvNeY'}).database();
+             consumerKey: process.env.PUBLIC_KEY, 
+             consumerSecret: process.env.SECRET_KEY}).database();
         db.search([req.body.query], ['artist'], function(err, data){
           console.log(data);
           if (err) {
