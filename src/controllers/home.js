@@ -5,58 +5,50 @@ var express         = require('express'),
     User            = require(__dirname + '/../models/user'),
     bcrypt          = require('bcrypt'),
     session         = require('express-session');
-
-
        
 
-
-
-//////////LOG OUT//////////////
-// GET log out page
+// LOGOUT PAGE
 HomeController.route('/logout/?')
 .get(function(req, res, next) {
-// req.session.isLoggedIn = null;
-// req.session = null;
-  req.session.destroy()
-  console.log(req.session, '------------------------------------------------------------- this is req.session')
-  res.render('logout')
-})
+  // End session
+  req.session.destroy();
+  console.log(req.session, 'req.session status');
+  res.render('logout');
+});
 
 
-////////////SIGN UP//////////////
+// SIGN UP PAGE
 HomeController.route('/signup/?')
-  // GET sign up page
   .get(function(req, res, next) {
-    res.render('signup', {
-    pageTitle: 'Sign Up'
-    })
+    res.render('signup')
   })
-  // Registers new user
+  // Register new user
   .post(function(req, res, next) {
-    User.findOne({ username: req.body.username}, function(err, user) {
+    User.findOne({ username: req.body.username }, function(err, user) {
+      // Should username already exist
       if (err || user) {
       res.render('signup', {
       message: user ? "That username already exists!" : false
-      })
-      console.log('username exists')
+      });
       } 
+      // Require all Sign Up fields to be completed
       else if (!user) {
         if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
           res.render('signup', {
           message: !user ? 'Please complete all fields!' : false
-          })
-          console.log('complete fields')
+          });
         }
+        // Require password and password confirmation to match
         else if (req.body.password !== req.body.password_confirmation) {
         res.render('signup', {
         message: req.body.password !== req.body.password_confirmation ? 'Your passwords do not match!' : false 
-        })
-        console.log('passwords dont match')
+        });
         }
+        // If passwords match-
         else if (req.body.password === req.body.password_confirmation) {
         // Make password secure with bcrypt
         bcrypt.hash(req.body.password, 10, function(err, hash) {
-          // Create new user document based on user schema
+          // Create new user document
           User.create({
           username: req.body.username,
           password: hash,
@@ -65,7 +57,7 @@ HomeController.route('/signup/?')
           function(err, user) {
             if (err) {
               console.log(err);
-              res.render('signup', {error: err});
+              res.render('signup');
             }
             else {
               console.log(user);
@@ -74,62 +66,59 @@ HomeController.route('/signup/?')
               req.session.userId     = user._id;
               res.redirect('/search');
             }
-          })
-        })
+          });
+        });
         }
         }
-      })
+      });
   });
 
 
-
-
-
-//////////////HOME///////////////
+// HOME PAGE -> LOGIN
 HomeController.route('/?') 
   .get(function(req, res, next) {
-    res.render('home', {
-    pageTitle: 'Badnname'
-    })
+    res.render('home')
   })
    .post(function(req, res, next) {
-    // find user by username
-    User.findOne({username: req.body.username}, function(error, user) {
+    // Find user by username
+    User.findOne( {username: req.body.username }, function(err, user) {
+      // Require that all fields are completed
       if ((req.body.password === '') || (req.body.username === '')) {
         res.render('home', {
         message: (req.body.password === '') || (req.body.username === '') ? 'Please complete all fields!' : false
-        })
-        console.log('complete fields')
+        });
+        console.log('complete fields');
       }
-      else if (error || !user) {
+      // Should username not exist
+      else if (err || !user) {
         res.render('home', {
         message: req.session.isLoggedIn ? true : "Username not found!"
-      })
+      });
       }
       else {
-        // Compare the password sent through the form. 
+        // Compare the password with hashed db password 
         bcrypt.compare(req.body.password, user.password, function(err, result) {
           if (err) {
-            console.log(err)
-            res.send('ERROR: ' + err);   // error in bcrypt library itself
+            console.log(err);
+            res.send('ERROR: ' + err);
           }
           else if (result) {
             console.log(user)
             req.session.isLoggedIn = true;
             req.session.userId     = user._id;
-            res.redirect('/search')
-
-          } else {
-            console.log('Wrong password')
+            res.redirect('/search');
+          } 
+          else {
             res.render('home', {
             message: req.session.isLoggedIn ? true : "Your password is incorrect!"
-            })
+            });
           }
-        })
+        });
       }
-    })
-  })
+    });
+  });
  
- module.exports = HomeController;
+
+module.exports = HomeController;
 
 
