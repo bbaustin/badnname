@@ -4,19 +4,16 @@ var express           = require('express'),
     discogs           = require('disconnect').Client,
     Search            = require(__dirname + '/../models/search'),
     User              = require(__dirname + '/../models/user');
-    var timeout = require('connect-timeout');
+    
 
-
-
-
-
+// User History in JSON
 SearchController.route('/userHistory')
   .get(function(req, res) {
     res.render('userHistory');
   });
 
 
-
+// Get all searches by id JSON
 SearchController.route('/getAll')
   .get(function(req, res) {
     Search.find({userId: req.session.userId}, function(err, searches) {

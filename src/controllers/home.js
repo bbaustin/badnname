@@ -1,5 +1,4 @@
 // Home Controller
-
 var express         = require('express'),
     HomeController  = express.Router(),
     User            = require(__dirname + '/../models/user'),
