@@ -1,0 +1,8 @@
+#!/bin/sh
+
+
+export PUBLIC_KEY=changeme
+export SECRET_KEY=changeme
+
+echo $PUBLIC_KEY
+echo $SECRET_KEY
