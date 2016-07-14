@@ -4,6 +4,7 @@ var express           = require('express'),
     discogs           = require('disconnect').Client,
     Search            = require(__dirname + '/../models/search'),
     User              = require(__dirname + '/../models/user');
+    var timeout = require('connect-timeout');
 
 
 
@@ -51,7 +52,10 @@ SearchController.route('/?')
    
     }
   })
-  .post(function(req, res) {
+  .post(function(req, res, next) {
+     // if (!req.timeout) {
+     //  next();
+     // }
 ///////////  DISCOGS  ////////////
     var db = new discogs({
              consumerKey: 'ASYxbejFTvCfHSryhgKr', 
