@@ -2,9 +2,7 @@ var express    = require('express'),
     app        = express(),
     exphbs     = require('express-handlebars'),
     bodyParser = require('body-parser'),
-    session    = require('express-session'),
-    timeout    = require('req-timeout');
-    var timeout = require('connect-timeout');
+    session    = require('express-session');
 
 
 // Configure Setting
@@ -46,12 +44,7 @@ app.use('/', function(req, res, next) {
 app.use('/search', require('./controllers/search'));
 
 
-
-
-
-
-
-
+// Server listen
 var server = app.listen(8008, function() {
 	console.log('server running at ' + server.address().port);
 });
