@@ -72,8 +72,8 @@ SearchController.route('/?')
             foundCounter += 2;
             console.log('It looks like ' + req.body.query + ' has something on Discogs');
             Search.find({query: req.body.query}, function (err, toUpdate) {
-              for (var i = 0; i < toUpdate.length; i++) {
-              toUpdate[i].update({found:true}, function (err, raw) {
+              for (var j = 0; j < toUpdate.length; j++) {
+              toUpdate[j].update({found:true}, function (err, raw) {
                 if (err) console.log(err);
                 console.log(raw);
               });
