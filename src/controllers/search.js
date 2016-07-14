@@ -47,6 +47,7 @@ SearchController.route('/?')
      // if (!req.timeout) {
      //  next();
      // }
+    var foundCounter = 0; 
     Search.create({
       query: req.body.query,
       userId: req.session.userId,
@@ -68,12 +69,15 @@ SearchController.route('/?')
       else {
         for (var i = 0; i < data.results.length; i++) {
           if (data.results[i].type === 'artist' && data.results[i].title.toLowerCase() === req.body.query.toLowerCase()){
+            foundCounter += 2;
             console.log('It looks like ' + req.body.query + ' has something on Discogs');
-            Search.findOne({query: req.body.query}, function (err, toUpdate) {
-              toUpdate.update({found:true}, function (err, raw) {
+            Search.find({query: req.body.query}, function (err, toUpdate) {
+              for (var i = 0; i < toUpdate.length; i++) {
+              toUpdate[i].update({found:true}, function (err, raw) {
                 if (err) console.log(err);
                 console.log(raw);
               });
+              }
             })
             i = data.results.length;
           }
@@ -94,56 +98,62 @@ SearchController.route('/?')
         } 
     /////////  TYPE: ALBUM  /////////    
         else if (results[0].type === 'album') {
+          console.log('BAND CAMP ALBUM SEARCH');
           if (req.body.query.toLowerCase() === results[0].artist.toLowerCase()) {
-            Search.findOne({query: req.body.query}, function (err, toUpdate) {
-              toUpdate.update({found:true}, function (err, raw) {
+            foundCounter++;
+            Search.find({query: req.body.query}, function (err, toUpdate) {
+              for (var i = 0; i < toUpdate.length; i++) {
+                toUpdate[i].update({found:true}, function (err, raw) {
                 if (err) console.log(err);
-                console.log(raw);
-              });
-            })
-            res.render('searchResult', {
-              query: req.body.query,
-              comment: ", but it looks like that band name might be taken.",
-              link: results[0].link, 
-              image: '<img src=' + results[0].image + '/>', 
-            })
+                  console.log(raw);
+                });
+                }
+              })
+            }
           }
-        else {
-          res.render('searchResult', {
-            query: req.body.query,
-            comment: ". That bandname is not registered on Bandcamp!",
-            link: '/search',
-            image: ''
-          })
-        }
-      }
     /////////  TYPE: ARTIST  /////////    
         else if (results[0].type === 'artist') {
+          console.log('BAND CAMP ARTIST SEARCH');          
           if (req.body.query.toLowerCase() === results[0].name.toLowerCase()) {
-            Search.findOne({query: req.body.query}, function (err, toUpdate) {
-              toUpdate.update({found:true}, function (err, raw) {
+            foundCounter++;
+            Search.find({query: req.body.query}, function (err, toUpdate) {
+              for (var i = 0; i < toUpdate.length; i++) {
+              toUpdate[i].update({found:true}, function (err, raw) {
                 if (err) console.log(err);
                 console.log(raw);
               });
-            })
-            res.render('searchResult', {
-              query: req.body.query,
-              link: results[0].link, 
-              image: '<img src=' + results[0].image + '/>',  
-              comment: ", but it looks like that band name might be taken."
+              }
             })
           }
-          else {
-            res.render('searchResult', {
-              query: req.body.query,
-              link: '/search',
-              image: '',
-              comment: ". That name has not been registered on Bandcamp!"
-          })
-        }
       }
-    });
-  });
+    console.log(foundCounter);
+    if (foundCounter === 0) {
+      res.render('searchResult', {
+        query: req.body.query,
+        link: '/search',
+        image: '',
+        comment: '.<br/> It looks like that band name is still available.'
+      })
+    }
+    else if (foundCounter%2 === 0) { // only found on discogs 
+      res.render('searchResult', {
+        query: req.body.query,
+        link: '/search', // Change this to a discogs link :D 
+        image: '',
+        comment: '.<br/> Sorry, but it looks like that band name has been taken already. Try again!'
+      })
+    }
+    else if (foundCounter%2 === 1) { // found on bandcamp, and potentially discogs
+      res.render('searchResult', {
+        query: req.body.query,
+        link: results[0].link, 
+        image: '<img src=' + results[0].image + '/>',
+        comment: '.<br/> Sorry, but it looks like that band name has been taken already. Try again!' 
+      })
+    } 
+  })
+
+})
 
 
 
