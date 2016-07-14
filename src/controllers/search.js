@@ -4,6 +4,7 @@ var express           = require('express'),
     discogs           = require('disconnect').Client,
     Search            = require(__dirname + '/../models/search'),
     User              = require(__dirname + '/../models/user');
+    var timeout = require('connect-timeout');
 
 
 
@@ -48,7 +49,10 @@ SearchController.route('/?')
       })
     }
   })
-  .post(function(req, res) {
+  .post(function(req, res, next) {
+     // if (!req.timeout) {
+     //  next();
+     // }
 ///////////  DISCOGS  ////////////
   // to do tonight ---------> create more handlebars to add discogs info in. 
     // this will include 'comment,' 'link,' 'etc.' maybe image?

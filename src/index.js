@@ -3,6 +3,7 @@ var app        = express()
 var exphbs     = require('express-handlebars')
 var bodyParser = require('body-parser')
 var session    = require('express-session')
+var timeout = require('connect-timeout');
 
 
 // Configure Setting
@@ -15,9 +16,7 @@ app.engine('hbs', exphbs({
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 
-
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 app.use(session({
   name: 'sessionclass',
@@ -32,7 +31,6 @@ require('./db/db');
 
 
 // Mount Middleware
-
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', require('./controllers/home'));
@@ -45,8 +43,7 @@ app.use('/', function(req, res, next) {
 })
 app.use('/search', require('./controllers/search'));
 
-
-
+app.use(timeout(2000));
 
 var server = app.listen(8008, function() {
 	console.log('server running at ' + server.address().port)
