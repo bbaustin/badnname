@@ -15,7 +15,7 @@ h2 {
 h3 {
   color: rgba(255, 255, 255, 0.65);
   font-size: 2em;
-  margin: 0;
+  margin-top: 40px;
 }
 a {
   color: #38b6a0;
@@ -40,8 +40,8 @@ html {
   height: 100%;
 }
 body {
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
   background-color: rgba(255, 255, 255, 0.65);
   background-image: url("../img/amp-ibanez-2.jpeg");
 }
@@ -49,8 +49,8 @@ body {
   display: flex;
   margin-top: 20px;
   flex-grow: 1;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: 15%;
+  margin-right: 15%;
   justify-content: center;
   text-align: center;
 }
@@ -67,7 +67,8 @@ input {
   margin-top: 20px;
 }
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"] {
   border: none;
   border-radius: 50px;
   height: 50px;
@@ -79,7 +80,8 @@ input[type="password"] {
   text-align: center;
 }
 input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="email"] {
   outline: none;
   background-color: rgba(60, 60, 60, 0.65);
 }
@@ -108,5 +110,8 @@ button:active {
   top: 55px;
 }
 input:first-child {
-  margin-top: 0px;
+  margin-top: 0;
+}
+.containerV h3 {
+  margin: 0;
 }

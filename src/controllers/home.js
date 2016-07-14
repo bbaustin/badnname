@@ -23,7 +23,7 @@ HomeController.route('/signup/?')
   })
   // Register new user
   .post(function(req, res, next) {
-    User.findOne({ username: req.body.username }, function(err, user) {
+    User.findOne({username: req.body.username}, function(err, user) {
       // Should username already exist
       if (err || user) {
       res.render('signup', {
@@ -43,33 +43,33 @@ HomeController.route('/signup/?')
         message: req.body.password !== req.body.password_confirmation ? 'Your passwords do not match!' : false 
         });
         }
-        // If passwords match-
+        // If passwords match
         else if (req.body.password === req.body.password_confirmation) {
-        // Make password secure with bcrypt
-        bcrypt.hash(req.body.password, 10, function(err, hash) {
-          // Create new user document
-          User.create({
-          username: req.body.username,
-          password: hash,
-          email: req.body.email
-          },
-          function(err, user) {
-            if (err) {
-              console.log(err);
-              res.render('signup');
-            }
-            else {
-              console.log(user);
-              console.log(req.session);
-              req.session.isLoggedIn = true;
-              req.session.userId     = user._id;
-              res.redirect('/search');
-            }
+          // Make password secure with bcrypt
+          bcrypt.hash(req.body.password, 10, function(err, hash) {
+            // Create new user document
+            User.create({
+            username: req.body.username,
+            password: hash,
+            email: req.body.email
+            },
+            function(err, user) {
+              if (err) {
+                console.log(err);
+                res.render('signup');
+              }
+              else {
+                console.log(user);
+                console.log(req.session);
+                req.session.isLoggedIn = true;
+                req.session.userId     = user._id;
+                res.redirect('/search');
+              }
+            });
           });
-        });
         }
-        }
-      });
+      }
+    });
   });
 
 
@@ -92,7 +92,7 @@ HomeController.route('/?')
       else if (err || !user) {
         res.render('home', {
         message: req.session.isLoggedIn ? true : "Username not found!"
-      });
+        });
       }
       else {
         // Compare the password with hashed db password 
@@ -119,5 +119,3 @@ HomeController.route('/?')
  
 
 module.exports = HomeController;
-
-
