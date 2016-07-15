@@ -39,6 +39,7 @@ SearchController.route('/?')
     }
   })
   .post(function(req, res, next) {
+    console.log('posting...');
     var foundCounter = 0; 
     Search.create({
       query: req.body.query,
@@ -50,7 +51,7 @@ SearchController.route('/?')
       consumerKey: process.env.PUBLIC_KEY, 
       consumerSecret: process.env.SECRET_KEY}).database();
     db.search([req.body.query], ['artist'], function(err, data) {
-      console.log(data);
+      //console.log(data);
       if (err) {
         console.log('your discogs thing has error ' + err);
       }
@@ -60,12 +61,14 @@ SearchController.route('/?')
       else {
         for (var i = 0; i < data.results.length; i++) {
           if (data.results[i].type === 'artist' && data.results[i].title.toLowerCase() === req.body.query.toLowerCase()) {
-            foundCounter += 2;
+            console.log('line before foundCounter plus two');
+            foundCounter+=2;
+            console.log(foundCounter);
             console.log('It looks like ' + req.body.query + ' has something on Discogs');
             Search.find({query: req.body.query}, function (err, toUpdate) {
               for (var j = 0; j < toUpdate.length; j++) {
               toUpdate[j].update({found:true}, function (err, raw) {
-                if (err) console.log(err);
+                if (err) console.log("err " + err);
                 console.log(raw);
               });
               }
@@ -115,9 +118,9 @@ SearchController.route('/?')
                 });
               }
             });
-          }
-        }
-    console.log(foundCounter);
+          };
+        };
+    console.log(foundCounter + " line 122");
     if (foundCounter === 0) {
       res.render('searchResult', {
         query: req.body.query,
