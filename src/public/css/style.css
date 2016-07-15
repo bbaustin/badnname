@@ -159,5 +159,6 @@ input:first-child {
   .logoutB {
     visibility: visible;
     margin-top: 30px;
+    margin-bottom: 20px;
   }
 }
