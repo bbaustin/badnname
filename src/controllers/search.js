@@ -48,8 +48,8 @@ SearchController.route('/?')
     });
 ///////////  DISCOGS  ////////////
     var db = new discogs({
-      consumerKey: process.env.PUBLIC_KEY, 
-      consumerSecret: process.env.SECRET_KEY}).database();
+      consumerKey: process.env.ASYxbejFTvCfHSryhgKr, 
+      consumerSecret: process.env.NPbNIIhHUrdGYgQMPWIfEyFCIGkwvNeY}).database();
     db.search([req.body.query], ['artist'], function(err, data) {
       //console.log(data);
       if (err) {

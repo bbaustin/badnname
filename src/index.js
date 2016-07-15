@@ -1,4 +1,4 @@
-var dotenv     = require('dotenv').config(),
+var dotenv     = require('dotenv').config({silent:true}),
     express    = require('express'),
     app        = express(),
     exphbs     = require('express-handlebars'),
