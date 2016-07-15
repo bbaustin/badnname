@@ -36,16 +36,31 @@ p {
 .logout a {
   color: black;
 }
-html {
-  height: 100%;
+@media (max-width: 700px) {
+  h1 {
+    font-size: 60px;
+  }
+  h2 {
+    font-size: 30px;
+  }
+  h3 {
+    font-size: 25px;
+  }
+  .containerV h3 {
+    margin-top: 20px;
+  }
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 body {
-  padding: 0;
-  margin: 0;
   background-color: rgba(255, 255, 255, 0.65);
   background-image: url("../img/amp-ibanez-2.jpeg");
 }
-.containerH {
+.containerH,
+.searchesH {
   display: flex;
   margin-top: 20px;
   flex-grow: 1;
@@ -109,9 +124,40 @@ button:active {
   right: 30px;
   top: 55px;
 }
+.logoutB {
+  visibility: hidden;
+}
 input:first-child {
   margin-top: 0;
 }
 .containerV h3 {
   margin: 0;
+}
+@media (max-width: 700px) {
+  .containerH {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  .searchesH {
+    margin-left: 10%;
+    margin-right: 10%;
+    display: block;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    width: 320px;
+    height: 40px;
+  }
+  button {
+    width: 90px;
+    height: 23px;
+  }
+  .logout {
+    visibility: hidden;
+  }
+  .logoutB {
+    visibility: visible;
+    margin-top: 30px;
+  }
 }
