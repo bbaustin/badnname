@@ -46,6 +46,6 @@ app.use('/search', require('./controllers/search'));
 
 
 // Server listen
-var server = app.listen(8008, function() {
+var server = app.listen(process.env.PORT || 8008, function() {   
 	console.log('server running at ' + server.address().port);
 });
