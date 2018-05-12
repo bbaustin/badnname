@@ -1,7 +1,8 @@
 // Home Controller
 var express         = require('express'),
     HomeController  = express.Router(),
-    User            = require(__dirname + '/../models/user'),
+    Boss            = require(__dirname + '/../models/boss'),
+    Employee        = require(__dirname + '/../models/employee'),
     bcrypt          = require('bcrypt'),
     session         = require('express-session');
        
@@ -21,20 +22,20 @@ HomeController.route('/signup/?')
   .get(function(req, res, next) {
     res.render('signup')
   })
-  // Register new user
+  // Register new boss
   .post(function(req, res, next) {
-    User.findOne({username: req.body.username}, function(err, user) {
-      // Should username already exist
-      if (err || user) {
+    Boss.findOne({username: req.body.username}, function(err, boss) {
+      // Should boss username already exist
+      if (err || boss) {
       res.render('signup', {
-      message: user ? "That username already exists!" : false
+      message: boss ? "That username already exists!" : false
       });
       } 
       // Require all Sign Up fields to be completed
-      else if (!user) {
+      else if (!boss) {
         if ((req.body.password === '') || (req.body.password_confirmation === '') || (req.body.username === '') || (req.body.email === '')) {
           res.render('signup', {
-          message: !user ? 'Please complete all fields!' : false
+          message: !boss ? 'Please complete all fields!' : false
           });
         }
         // Require password and password confirmation to match
@@ -47,22 +48,25 @@ HomeController.route('/signup/?')
         else if (req.body.password === req.body.password_confirmation) {
           // Make password secure with bcrypt
           bcrypt.hash(req.body.password, 10, function(err, hash) {
-            // Create new user document
-            User.create({
+            // Create new boss document
+            Boss.create({
             username: req.body.username,
             password: hash,
-            email: req.body.email
+            email: req.body.email,
+            skills: req.body.skills,
+            portfolio: req.body.portfolio,
+            bio: req.body.bio
             },
-            function(err, user) {
+            function(err, boss) {
               if (err) {
                 console.log(err);
                 res.render('signup');
               }
               else {
-                console.log(user);
+                console.log(boss);
                 console.log(req.session);
                 req.session.isLoggedIn = true;
-                req.session.userId     = user._id;
+                req.session.userId     = boss._id;
                 res.redirect('/search');
               }
             });
@@ -80,7 +84,7 @@ HomeController.route('/?')
   })
    .post(function(req, res, next) {
     // Find user by username
-    User.findOne( {username: req.body.username }, function(err, user) {
+    Boss.findOne( {username: req.body.username }, function(err, boss) {
       // Require that all fields are completed
       if ((req.body.password === '') || (req.body.username === '')) {
         res.render('home', {
@@ -89,22 +93,23 @@ HomeController.route('/?')
         console.log('complete fields');
       }
       // Should username not exist
-      else if (err || !user) {
+      else if (err || !boss) {
         res.render('home', {
         message: req.session.isLoggedIn ? true : "Username not found!"
         });
       }
       else {
         // Compare the password with hashed db password 
-        bcrypt.compare(req.body.password, user.password, function(err, result) {
+        bcrypt.compare(req.body.password, boss.password, function(err, result) {
           if (err) {
             console.log(err);
             res.send('ERROR: ' + err);
           }
           else if (result) {
-            console.log(user)
+            console.log(boss)
             req.session.isLoggedIn = true;
-            req.session.userId     = user._id;
+            req.session.userId     = boss._id;
+            req.session.username   = req.body.username;
             res.redirect('/search');
           } 
           else {

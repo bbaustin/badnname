@@ -6,15 +6,11 @@ var ajax = {
   url: '/search/getAll',
   type: 'get',
   dataType: 'json',
-  success: function(searches) {
-    console.log(searches);
-    for (var i = 0; i < searches.length; i++) {
-      if (searches[i].found){
-      $('#foundSearches').append('<li>' + searches[i].query + '</li>');
-      }
-      else {
-      $('#notFoundSearches').append('<li span style="color:#38b6a0">' + searches[i].query + '</li>');
-      }
+  success: function(postings) {
+    console.log(postings);
+    for (var i = 0; i < postings.length; i++) {
+      $('#foundSearches').append('<li>' + postings[i].titleName + 'by ' + postings[i].author + '(' + postings[i].userId + ')</li>');
+      console.log(postings[i].titleName);
     }
   },
   error: function(err) {

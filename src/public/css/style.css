@@ -1,10 +1,14 @@
 body {
-  font-family: 'Cutive Mono', monospace;
+  font-family: 'Montserrat', sans-serif;
 }
 h1 {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 5em;
+  color: #fffeff;
+  font-size: 3em;
   margin: 0;
+  font-family: monospace;
+}
+a h1 {
+  text-align: left;
 }
 h2 {
   color: #38b6a0;
@@ -13,7 +17,7 @@ h2 {
   margin-bottom: 0;
 }
 h3 {
-  color: rgba(255, 255, 255, 0.65);
+  color: #3066BE;
   font-size: 2em;
   margin-top: 40px;
 }
@@ -23,10 +27,10 @@ a {
 }
 li {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.65);
+  color: #3066BE;
 }
 p {
-  color: rgba(255, 255, 255, 0.65);
+  color: #3066BE;
   font-size: 1.5em;
   margin: 0;
 }
@@ -56,18 +60,17 @@ body {
   padding: 0;
 }
 body {
-  background-color: rgba(255, 255, 255, 0.65);
-  background-image: url("../img/amp-ibanez-2.jpeg");
+  background-color: #fffeff;
 }
 .containerH,
 .searchesH {
   display: flex;
-  margin-top: 20px;
-  flex-grow: 1;
-  margin-left: 15%;
-  margin-right: 15%;
+  /* margin-top: 20px; */
+  /* flex-grow: 1; */
+  /* margin-left: 15%; */
+  /* margin-right: 15%; */
   justify-content: center;
-  text-align: center;
+  /* text-align: center; */
 }
 .containerV {
   display: flex;
@@ -77,6 +80,11 @@ body {
 }
 header {
   margin: 0;
+  color: #fffeff;
+}
+.north {
+  background-color: #3066BE;
+  color: #fffeff;
 }
 input {
   margin-top: 20px;
@@ -89,7 +97,7 @@ input[type="email"] {
   height: 50px;
   width: 500px;
   background-color: rgba(39, 39, 39, 0.5);
-  color: rgba(255, 255, 255, 0.65);
+  color: #fffeff;
   font-family: 'Cutive Mono', monospace;
   font-size: 22px;
   text-align: center;
